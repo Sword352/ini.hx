@@ -1,3 +1,11 @@
 {
-    "name": "ini.hx"
+    "name": "ini.hx",
+    "url": "https://github.com/Sword352/ini.hx",
+    "license": "MIT",
+    "tags": ["parser", "ini"],
+    "description": "Cross-platform ini parser and writer",
+    "version": "1.0.0",
+    "classPath": "ini/",
+    "releasenote": "Initial release",
+    "contributors": ["Sword352"]
 }
