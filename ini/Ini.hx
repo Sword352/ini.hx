@@ -17,7 +17,9 @@ class Ini {
      * @param content `String` to convert.
      * @return Ast
      */
-    public static inline function parseAst(content: String): Ast {
+    public static function parseAst(content: String): Ast {
+        if (content == null)
+            throw "Cannot parse null ini document";
         return new StringToAst().parse(content);
     }
 
@@ -26,7 +28,9 @@ class Ini {
      * @param ast `Ast` to convert.
      * @return Output
      */
-    public static inline function parseObject(ast: Ast): Output {
+    public static function parseObject(ast: Ast): Output {
+        if (ast == null)
+            throw "Cannot convert null ini ast into object";
         return new AstToObject().parse(ast);
     }
 
@@ -35,7 +39,9 @@ class Ini {
      * @param ast `Ast` to convert.
      * @return String
      */
-    public static inline function write(ast: Ast): String {
+    public static function write(ast: Ast): String {
+        if (ast == null)
+            throw "Cannot convert null ini AST into string";
         return new Writer().write(ast);
     }
 }

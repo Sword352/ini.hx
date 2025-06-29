@@ -6,7 +6,8 @@ import haxe.ds.StringMap;
 using StringTools;
 
 class StringToAst {
-    @:allow(ini.Ini) function new(): Void {}
+    @:allow(ini.Ini)
+    function new(): Void {}
 
     var charIdx: Int = 0;
     var currLine: Int = 1;
@@ -26,9 +27,6 @@ class StringToAst {
     var pendingValue: String;
 
     public function parse(content: String): Ast {
-        if (content == null)
-            throw "Cannot parse null string";
-
         // fix newlines
         content = content.replace('\\', '\\\\').replace('\r\n', '\n');
         //

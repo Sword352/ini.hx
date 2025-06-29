@@ -1,12 +1,10 @@
 package ini._internal;
 
 class Writer {
-    @:allow(ini.Ini) function new(): Void {}
+    @:allow(ini.Ini)
+    function new(): Void {}
 
-    public function write(ast: Ast): String {
-        if (ast == null)
-            throw "Cannot write null ast";
-        
+    public function write(ast: Ast): String {        
         var buf: StringBuf = new StringBuf();
         writeString(ast, buf);
         return buf.toString();

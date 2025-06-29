@@ -7,12 +7,10 @@ import haxe.ds.StringMap;
 using StringTools;
 
 class AstToObject {
-    @:allow(ini.Ini) function new(): Void {}
+    @:allow(ini.Ini)
+    function new(): Void {}
 
     public function parse(ast: Ast): Output {
-        if (ast == null)
-            throw "Cannot parse null ast";
-
         var output: Output = new Output();
         addToOutput(output, ast);
         return output;
