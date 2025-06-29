@@ -27,10 +27,6 @@ class StringToAst {
     var pendingValue: String;
 
     public function parse(content: String): Ast {
-        // fix newlines
-        content = content.replace('\\', '\\\\').replace('\r\n', '\n');
-        //
-        
         registeredSections = [];
         registeredKeys = new StringMap();
         registeredIsolatedKeys = [];
@@ -68,6 +64,8 @@ class StringToAst {
 
                 case " ".code if (state == null):
                     // ignore space
+
+                case "\r".code:
                 
                 case "\n".code:
                     checkNewline();
