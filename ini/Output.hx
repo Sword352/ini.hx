@@ -1,6 +1,7 @@
 package ini;
 
-abstract Output(Dynamic) to Dynamic {
+@:forward
+abstract Output(Dynamic) {
     @:allow(ini._internal.AstToObject)
     function new(): Void {
         this = {};
