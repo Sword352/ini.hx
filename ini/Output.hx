@@ -1,78 +1,39 @@
 package ini;
 
-import haxe.ds.StringMap;
+abstract Output(Dynamic) to Dynamic {
+    @:allow(ini._internal.AstToObject)
+    function new(): Void {
+        this = {};
+    }
 
-@:allow(ini._internal.AstToObject)
-class Output {
-    var isolatedKeyValuePairs: Any;
-    var sections: StringMap<Any>;
+    @:deprecated("Use dot access or reflection instead")
+    public function getSection(?name: String): Dynamic {
+        if (name == null)
+            return this;
 
-    function new(): Void {}
-
-    /**
-     * Returns an object holding the values associated with the given section name.
-     * If no name is given, an object holding the isolated key value pairs will be returned if existing.
-     * @param name Optional section name.
-     * @throws String Isolated key-value pairs do not exists.
-     * @throws String The requested section does not exist.
-     * @return Any
-     */
-    public function getSection(?name: String): Any {
-        if (name == null) {
-            if (isolatedKeyValuePairs == null)
-                throw 'No isolated key-value pairs found!';
-            return isolatedKeyValuePairs;
+        if (Reflect.hasField(this, name)) {
+            var property: Any = Reflect.getProperty(this, name);
+            if (Type.typeof(property) == TObject)
+                return property;
         }
 
-        var output: Any = null;
+        throw 'Section "${name}" does not exist!';
+    }
 
-        if (sections != null)
-            output = sections.get(name);
+    @:deprecated("Use Reflect.fields instead")
+    public function getSectionList(): Array<String> {
+        var output: Array<String> = [];
 
-        if (output == null)
-            throw' Section "${name}" does not exist!';
+        for (field in Reflect.fields(this)) {
+            var property: Any = Reflect.getProperty(this, field);
+            if (Type.typeof(property) == TObject)
+                output.push(field);
+        }
 
         return output;
     }
 
-    /**
-     * Returns the list of section names.
-     * If no section exists, `null` will be returned.
-     * @return Array<String>
-     */
-    public function getSectionList(): Array<String> {
-        if (sections == null)
-            return null;
-
-        return [for (name in sections.keys()) name];
-    }
-
-    /**
-     * Converts this ini output into a readable structure as a `String`.
-     * @return String
-     */
     public function toString(): String {
-        var isolatedValues: String = null;
-        var sectionValues: String = null;
-
-        if (isolatedKeyValuePairs != null) {
-            var fields: Array<String> = Reflect.fields(isolatedKeyValuePairs);
-            isolatedValues = fields.map(f -> '${f}: ${Reflect.field(isolatedKeyValuePairs, f)}').join(', ');
-        }
-
-        if (sections != null) {
-            sectionValues = [for (name => value in sections) '${name}: ${value}'].join(", ");
-        }
-
-        if (isolatedValues != null && sectionValues != null)
-            return "{" + isolatedValues + ", " + sectionValues + "}";
-
-        if (isolatedValues != null)
-            return "{" + isolatedValues + "}";
-
-        if (sectionValues != null)
-            return "{" + sectionValues + "}";
-
-        return null;
+        return Std.string(this);
     }
 }

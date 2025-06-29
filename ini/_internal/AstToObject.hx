@@ -2,7 +2,6 @@ package ini._internal;
 
 import ini.Ast;
 import ini.Output;
-import haxe.ds.StringMap;
 
 using StringTools;
 
@@ -23,16 +22,10 @@ class AstToObject {
                     addToOutput(output, entry);
             
             case ASection(name, values):
-                if (output.sections == null)
-                    output.sections = new StringMap();
-
-                output.sections.set(name, buildObject(values));
+                Reflect.setField(output, name, buildObject(values));
             
             case AKeyValuePair(name, v):
-                if (output.isolatedKeyValuePairs == null)
-                    output.isolatedKeyValuePairs = {};
-
-                addFieldToObject(output.isolatedKeyValuePairs, name, v);
+                addConstToObject(output, name, v);
         }
     }
 
@@ -42,7 +35,7 @@ class AstToObject {
         for (value in values) {
             switch (value) {
                 case AKeyValuePair(name, v):
-                    addFieldToObject(output, name, v);
+                    addConstToObject(output, name, v);
                 default:
                     throw "Cannot apply expression " + Std.string(value) + " to output";
             }
@@ -51,7 +44,7 @@ class AstToObject {
         return output;
     }
 
-    function addFieldToObject(object: Any, name: String, const: Const): Void {
+    function addConstToObject(object: Any, name: String, const: Const): Void {
         Reflect.setField(object, name, const.toValue());
     }
 }
