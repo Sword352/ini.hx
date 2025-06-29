@@ -1,0 +1,92 @@
+## Flash 9+
+-main TestMain
+-lib munit
+-lib hamcrest
+
+-cp ../
+-cp src
+-swf-version 11
+-swf build/as3_test.swf
+
+## JavaScript
+--next
+-main TestMain
+-lib munit
+-lib hamcrest
+
+-cp ../
+-cp src
+-js build/js_test.js
+
+## Neko
+--next
+-main TestMain
+-lib munit
+-lib hamcrest
+
+-cp ../
+-cp src
+-neko build/neko_test.n
+
+## CPP
+--next
+-main TestMain
+-lib munit
+-lib hamcrest
+
+-cp ../
+-cp src
+#-D HXCPP_M64
+-cpp build/cpp_test
+
+## Python
+--next
+-main TestMain
+-lib munit
+-lib hamcrest
+
+-cp ../
+-cp src
+-python build/python_test.py
+
+## PHP 7
+--next
+-main TestMain
+-lib munit
+-lib hamcrest
+
+-cp ../
+-cp src
+-D php7
+-php build/php_test
+
+## JavaScript NodeJS
+--next
+-main TestMain
+-lib munit
+-lib hamcrest
+-lib hxnodejs
+
+-cp ../
+-cp src
+-js build/js_test.js
+
+## HashLink
+--next
+-main TestMain
+-lib munit
+-lib hamcrest
+
+-cp ../
+-cp src
+-hl build/hl_test.hl
+
+## LUA
+--next
+-main TestMain
+-lib munit
+-lib hamcrest
+
+-cp ../
+-cp src
+-lua build/lua_test.lua

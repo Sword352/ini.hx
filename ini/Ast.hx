@@ -25,7 +25,7 @@ abstract Const(ConstImpl) from ConstImpl {
      * @return Const
      */
     public static function fromString(string: String): Const {
-        static final NUMBER_EXPR: EReg = ~/^[0-9.]*$/;
+        static final NUMBER_REGEX: EReg = new EReg("^(?:[+-]?(?:(?:[1-9]\\d*|0)(?:\\.\\d*)?|\\.\\d+)(?:[Ee][+-]?\\d+)?)$", "");
 
         if (string == "true")
             return CBool(true);
@@ -33,7 +33,7 @@ abstract Const(ConstImpl) from ConstImpl {
         if (string == "false")
             return CBool(false);
 
-        if (string.length > 0 && NUMBER_EXPR.match(string))
+        if (NUMBER_REGEX.match(string))
             return CNumber(Std.parseFloat(string));
 
         return CString(string);
